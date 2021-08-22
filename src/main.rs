@@ -1,4 +1,4 @@
-mod cli_arguments;
+mod utils;
 
 use std::env;
 
@@ -6,7 +6,7 @@ fn main() {
     let args: Vec<String> = env::args().collect();
 
     // args not available after this line - ownership
-    let input = cli_arguments::parse_input(args);
+    let input = utils::cli_arguments_utils::parse_input(args);
 
     if let Some(file) = input {
         println!(
