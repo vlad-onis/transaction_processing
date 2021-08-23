@@ -9,3 +9,8 @@ edition = "2018"
 [dependencies]
 csv = "1.1.6"
 serde = "1.0.128"
+
+[dependencies.mongodb]
+version = "1.2.0"
+default-features = false
+features = ["sync"]
