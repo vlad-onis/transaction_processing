@@ -24,9 +24,14 @@ fn main() {
 
     let _ = utils::csv_utils::process_file(input.unwrap());
 
+    // Todo: To remove
     let db = utils::db_utils::DatabaseAccess::new();
-
     for coll in db.unwrap().collections {
         coll.insert_one(doc!{"test": 13}, None);
+    }
+
+    let db2 = utils::db_utils::DatabaseAccess::new();
+    for coll in db2.unwrap().collections {
+        coll.insert_one(doc!{"test": 99}, None);
     }
 }
