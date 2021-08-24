@@ -1,6 +1,6 @@
 mod model;
-mod utils;
 mod repository;
+mod utils;
 
 use mongodb::bson::doc;
 
@@ -27,11 +27,13 @@ fn main() {
     // Todo: To remove
     let db = utils::db_utils::DatabaseAccess::new();
     for coll in db.unwrap().collections {
-        coll.insert_one(doc!{"test": 13}, None);
+        coll.insert_one(doc! {"test": 13}, None)
+            .expect("Could nod insert val");
     }
 
     let db2 = utils::db_utils::DatabaseAccess::new();
     for coll in db2.unwrap().collections {
-        coll.insert_one(doc!{"test": 99}, None);
+        coll.insert_one(doc! {"test": 99}, None)
+            .expect("Could not insert");
     }
 }
