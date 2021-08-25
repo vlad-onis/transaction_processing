@@ -3,7 +3,6 @@ mod repository;
 mod utils;
 
 use mongodb::bson::doc;
-
 use std::env;
 
 fn main() {
@@ -24,16 +23,19 @@ fn main() {
 
     let _ = utils::csv_utils::process_file(input.unwrap());
 
-    // Todo: To remove
-    let db = utils::db_utils::DatabaseAccess::new();
-    for coll in db.unwrap().collections {
-        coll.insert_one(doc! {"test": 13}, None)
-            .expect("Could nod insert val");
-    }
-
-    let db2 = utils::db_utils::DatabaseAccess::new();
-    for coll in db2.unwrap().collections {
-        coll.insert_one(doc! {"test": 99}, None)
-            .expect("Could not insert");
+    let transaction_repository = repository::transaction_repository::TransactionRepository::new();
+    if let Some(tr) = transaction_repository {
+        match tr
+            .db_connection
+            .collections
+            .get(utils::db_utils::TRANSACTION_COLLECTION)
+        {
+            Some(col) => {
+                println!("Inserting: ");
+                col.insert_one(doc! {"test": "suta"}, None)
+                    .expect("Could not insert");
+            }
+            _ => println!("Don't have TRANSACTION Collection."),
+        }
     }
 }
