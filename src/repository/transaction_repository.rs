@@ -38,18 +38,18 @@ impl TransactionRepository {
         true
     }
 
-    // pub fn update_transaction(
-    //     &self,
-    //     old_transaction: &model::transaction::Transaction,
-    //     new_transaction: &model::transaction::Transaction,
-    // ) {
-    //     let old_transaction_document = mongodb::bson::to_document(old_transaction);
-    //     let new_transaction_document = mongodb::bson::to_document(new_transaction);
-    //
-    //     self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one_and_replace(
-    //         old_transaction_document.unwrap(),
-    //         new_transaction_document.unwrap(),
-    //         None,
-    //     );
-    // }
+    pub fn update_transaction(
+        &self,
+        old_transaction: &model::transaction::Transaction,
+        new_transaction: &model::transaction::Transaction,
+    ) {
+        let old_transaction_document = mongodb::bson::to_document(old_transaction);
+        let new_transaction_document = mongodb::bson::to_document(new_transaction);
+
+        self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one_and_replace(
+            old_transaction_document.unwrap(),
+            new_transaction_document.unwrap(),
+            None,
+        );
+    }
 }

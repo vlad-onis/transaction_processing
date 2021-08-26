@@ -5,7 +5,7 @@ use csv::StringRecord;
 use std::error::Error;
 use std::path;
 
-use crate::model::transaction::{Transaction, TRANSACTION_FIELDS};
+use crate::model::transaction::{Transaction, TransactionType, TRANSACTION_FIELDS};
 
 pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = csv::Reader::from_path(input_path)?;
