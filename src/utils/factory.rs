@@ -21,11 +21,11 @@ impl TransactionFactory {
             transaction_type: TransactionType::Default,
             client_id: String::from(csv_entry.get(1).unwrap())
                 .trim()
-                .parse::<u16>()
+                .parse::<i16>()
                 .unwrap(),
             transaction_id: String::from(csv_entry.get(2).unwrap())
                 .trim()
-                .parse::<u32>()
+                .parse::<i32>()
                 .unwrap(),
             amount,
         };
