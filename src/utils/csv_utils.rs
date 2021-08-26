@@ -20,7 +20,10 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
             continue;
         }
 
-        transaction_repository.insert_transaction(&transaction.unwrap())
+        let inserted = transaction_repository.insert_transaction(&transaction.unwrap());
+        if !inserted {
+            println!("Transaction: {} already exists", entry_count);
+        }
     }
 
     Ok(())
