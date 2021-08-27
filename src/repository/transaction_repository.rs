@@ -20,7 +20,6 @@ impl TransactionRepository {
     }
 
     pub fn insert_transaction(&self, transaction: &model::transaction::Transaction) -> bool {
-
         let transaction_searched = doc! {
             "transaction_id" : transaction.transaction_id
         };
@@ -41,8 +40,7 @@ impl TransactionRepository {
     }
 
     // Todo: Uncomment when the following will be used. Delete otherwise
-    // pub fn delete_transaction(&self, transaction: &model:
-    // :transaction::Transaction) {
+    // pub fn delete_transaction(&self, transaction: &model::transaction::Transaction) {
     //     let transaction_document = mongodb::bson::to_document(transaction);
     //     self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one_and_delete(
     //         transaction_document.unwrap(),
