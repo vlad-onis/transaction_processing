@@ -1,22 +1,26 @@
 use mongodb::sync;
+use std::collections::HashMap;
 
-const ACCOUNT_COLLECTION: &str = "Account";
-const TRANSACTION_COLLECTION: &str = "Transaction";
+pub const ACCOUNT_COLLECTION: &str = "Account";
+pub const TRANSACTION_COLLECTION: &str = "Transaction";
+const COLLECTION_NAMES: &[&str] = &[ACCOUNT_COLLECTION, TRANSACTION_COLLECTION];
 
 pub struct DatabaseAccess {
     pub client: sync::Client,
     pub database: sync::Database,
-    pub collections: Vec<sync::Collection>,
+    pub collections: HashMap<String, sync::Collection>,
 }
 
 impl DatabaseAccess {
     fn setup_db() -> Result<DatabaseAccess, mongodb::error::Error> {
         let client = sync::Client::with_uri_str("mongodb+srv://tester:transactiontest123@cluster0.xj3t7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")?;
         let database = client.database("transaction_processing_db");
-        let collections = vec![
-            database.collection(ACCOUNT_COLLECTION),
-            database.collection(TRANSACTION_COLLECTION),
-        ];
+
+        let mut collections: HashMap<String, sync::Collection> = HashMap::new();
+        for col in COLLECTION_NAMES {
+            let collection_name = col.to_string();
+            collections.insert(collection_name, database.collection(col));
+        }
 
         Ok(DatabaseAccess {
             client,

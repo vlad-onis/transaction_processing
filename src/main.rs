@@ -2,18 +2,16 @@ mod model;
 mod repository;
 mod utils;
 
-use mongodb::bson::doc;
-
 use std::env;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
     // args not available after this line - ownership
-    let input = utils::cli_arguments_utils::parse_input(args);
+    let input_path = utils::cli_arguments_utils::parse_input(args);
 
     // Todo: to remove
-    if let Some(file) = input.as_ref() {
+    if let Some(file) = input_path.as_ref() {
         println!(
             "Input file: {}",
             file.clone().into_os_string().into_string().unwrap()
@@ -22,18 +20,6 @@ fn main() {
         return;
     }
 
-    let _ = utils::csv_utils::process_file(input.unwrap());
-
-    // Todo: To remove
-    let db = utils::db_utils::DatabaseAccess::new();
-    for coll in db.unwrap().collections {
-        coll.insert_one(doc! {"test": 13}, None)
-            .expect("Could nod insert val");
-    }
-
-    let db2 = utils::db_utils::DatabaseAccess::new();
-    for coll in db2.unwrap().collections {
-        coll.insert_one(doc! {"test": 99}, None)
-            .expect("Could not insert");
-    }
+    let res = utils::csv_utils::process_file(input_path.unwrap());
+    println!("{:?}", res);
 }

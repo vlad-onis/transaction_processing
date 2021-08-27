@@ -1,4 +1,7 @@
-#[derive(Debug)]
+use serde::Deserialize;
+use serde::Serialize;
+
+#[derive(Debug, Serialize, Deserialize)]
 pub enum TransactionType {
     Deposit,
     Withdrawal,
@@ -8,11 +11,11 @@ pub enum TransactionType {
     Default,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Transaction {
     pub transaction_type: TransactionType,
-    pub client_id: u16,
-    pub transaction_id: u32,
+    pub client_id: i16,
+    pub transaction_id: i32,
     pub amount: Option<f32>,
 }
 
