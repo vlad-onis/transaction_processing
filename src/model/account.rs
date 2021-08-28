@@ -1,6 +1,9 @@
-#[derive(Debug)]
-struct Account {
-    pub client_id: u16,
+use serde::Deserialize;
+use serde::Serialize;
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Account {
+    pub client_id: i32,
     pub available: f32,
     pub total: f32,
     pub held: f32,

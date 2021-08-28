@@ -1,5 +1,6 @@
 mod model;
 mod repository;
+mod test;
 mod utils;
 
 use std::env;
