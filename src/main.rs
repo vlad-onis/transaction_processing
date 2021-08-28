@@ -23,4 +23,7 @@ fn main() {
 
     let res = utils::csv_utils::process_file(input_path.unwrap());
     println!("{:?}", res);
+
+    let acc_rep = repository::account_repository::AccountRepository::new();
+    acc_rep.unwrap().find_all_accounts();
 }

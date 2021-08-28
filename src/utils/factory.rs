@@ -82,7 +82,7 @@ impl TransactionFactory {
 pub struct AccountFactory {}
 
 impl AccountFactory {
-    pub fn createAccount(
+    pub fn create_account(
         client_id: i32,
         available: f32,
         total: f32,

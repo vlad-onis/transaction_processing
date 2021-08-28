@@ -40,4 +40,25 @@ impl AccountRepository {
 
         true
     }
+
+    pub fn find_all_accounts(&self) -> Vec<model::account::Account> {
+        let cursor =
+            match self.db_connection.collections[db_utils::ACCOUNT_COLLECTION].find(None, None) {
+                Ok(cursor) => cursor,
+                Err(_) => {
+                    return vec![];
+                }
+            };
+        let mut accounts: Vec<model::account::Account> = Vec::new();
+
+        for account_document in cursor {
+            let account =
+                mongodb::bson::from_document::<model::account::Account>(account_document.unwrap());
+            if account.is_ok() {
+                accounts.push(account.unwrap());
+            }
+        }
+
+        return accounts;
+    }
 }
