@@ -1,5 +1,6 @@
 mod model;
 mod repository;
+mod service;
 mod test;
 mod utils;
 
