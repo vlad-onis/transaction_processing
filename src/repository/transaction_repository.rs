@@ -50,22 +50,27 @@ impl TransactionRepository {
     //         None,
     //     ).expect("Could not delete transaction");
     // }
-    //
-    // pub fn update_transaction(
-    //     &self,
-    //     old_transaction: &model::transaction::Transaction,
-    //     new_transaction: &model::transaction::Transaction,
-    // ) {
-    //     let old_transaction_document = mongodb::bson::to_document(old_transaction);
-    //     let new_transaction_document = mongodb::bson::to_document(new_transaction);
-    //
-    //     self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one_and_replace(
-    //         old_transaction_document.unwrap(),
-    //         new_transaction_document.unwrap(),
-    //         None,
-    //     ).expect("Could not update transaction");
-    // }
-    //
+
+    pub fn update_transaction(
+        &self,
+        old_transaction_id: i32,
+        new_transaction: &model::transaction::Transaction,
+    ) {
+        let old_transaction_document = doc! {
+            "transaction_id" : old_transaction_id
+        };
+
+        let new_transaction_document = mongodb::bson::to_document(new_transaction);
+
+        self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
+            .find_one_and_replace(
+                old_transaction_document,
+                new_transaction_document.unwrap(),
+                None,
+            )
+            .expect("Could not update transaction");
+    }
+
     pub fn find_transaction_by_id(
         &self,
         transaction_id: i32,

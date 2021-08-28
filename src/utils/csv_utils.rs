@@ -31,8 +31,8 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
             continue;
         }
 
-        let transaction = transaction.unwrap();
-        transaction_service.process_transaction(&transaction)
+        let mut transaction = transaction.unwrap();
+        transaction_service.process_transaction(&mut transaction)
     }
 
     Ok(())

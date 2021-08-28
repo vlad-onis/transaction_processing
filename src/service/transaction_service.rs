@@ -25,7 +25,7 @@ impl TransactionService {
         None
     }
 
-    pub fn process_transaction(&self, transaction: &model::transaction::Transaction) {
+    pub fn process_transaction(&self, transaction: &mut model::transaction::Transaction) {
         let existent_account = self
             .account_repository
             .find_account_by_client_id(transaction.client_id);
@@ -86,19 +86,70 @@ impl TransactionService {
                     );
                     return;
                 }
-                let disputed_transaction = disputed_transaction.unwrap();
+                let mut disputed_transaction = disputed_transaction.unwrap();
                 if self
                     .process_dispute(&mut account, &disputed_transaction)
                     .is_err()
                 {
                     return;
                 }
+                disputed_transaction.disputed = true;
+                self.transaction_repository
+                    .update_transaction(disputed_transaction.transaction_id, &disputed_transaction);
             }
             TransactionType::Resolve => {
-                println!("Not yet implemented")
+                let disputed_transaction = self
+                    .transaction_repository
+                    .find_transaction_by_id(transaction.transaction_id);
+                if disputed_transaction.is_none() {
+                    println!(
+                        "Disputed transaction with transaction_id={} does not exist",
+                        transaction.transaction_id
+                    );
+                    return;
+                }
+                let mut disputed_transaction = disputed_transaction.unwrap();
+                if !disputed_transaction.disputed {
+                    println!("Transaction is not under dispute, RESOLVE will not be performed");
+                    return;
+                }
+
+                if self
+                    .process_resolve(&mut account, &disputed_transaction)
+                    .is_err()
+                {
+                    return;
+                }
+                disputed_transaction.disputed = false;
+                self.transaction_repository
+                    .update_transaction(disputed_transaction.transaction_id, &disputed_transaction);
             }
             TransactionType::Chargeback => {
-                println!("Not yet implemented")
+                let disputed_transaction = self
+                    .transaction_repository
+                    .find_transaction_by_id(transaction.transaction_id);
+                if disputed_transaction.is_none() {
+                    println!(
+                        "Disputed transaction with transaction_id={} does not exist",
+                        transaction.transaction_id
+                    );
+                    return;
+                }
+                let mut disputed_transaction = disputed_transaction.unwrap();
+                if !disputed_transaction.disputed {
+                    println!("Transaction is not under dispute, RESOLVE will not be performed");
+                    return;
+                }
+
+                if self
+                    .process_chargeback(&mut account, &disputed_transaction)
+                    .is_err()
+                {
+                    return;
+                }
+                disputed_transaction.disputed = false;
+                self.transaction_repository
+                    .update_transaction(disputed_transaction.transaction_id, &disputed_transaction);
             }
             TransactionType::Default => {
                 println!("Not yet implemented")
@@ -111,7 +162,6 @@ impl TransactionService {
         {
             println!("Account with client_id={} was updated", account.client_id);
         }
-
     }
 
     fn process_withdrawal(
@@ -174,6 +224,47 @@ impl TransactionService {
         } else {
             println!(
                 "Amount not available: DISPUTE did not modify account with client_id={}",
+                account.client_id
+            );
+        }
+
+        Err(TransactionFailedError(String::from("Deposit failed")))
+    }
+
+    fn process_resolve(
+        &self,
+        account: &mut model::account::Account,
+        transaction: &model::transaction::Transaction,
+    ) -> Result<(), TransactionFailedError> {
+        if transaction.amount.is_some() {
+            let amount = transaction.amount.unwrap();
+            account.available += amount;
+            account.held -= amount;
+            return Ok(());
+        } else {
+            println!(
+                "Amount not available: RESOLVE did not modify account with client_id={}",
+                account.client_id
+            );
+        }
+
+        Err(TransactionFailedError(String::from("Deposit failed")))
+    }
+
+    fn process_chargeback(
+        &self,
+        account: &mut model::account::Account,
+        transaction: &model::transaction::Transaction,
+    ) -> Result<(), TransactionFailedError> {
+        if transaction.amount.is_some() {
+            let amount = transaction.amount.unwrap();
+            account.total -= amount;
+            account.held -= amount;
+            account.locked = true;
+            return Ok(());
+        } else {
+            println!(
+                "Amount not available: CHARGEBACK did not modify account with client_id={}",
                 account.client_id
             );
         }

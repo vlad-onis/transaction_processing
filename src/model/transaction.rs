@@ -18,6 +18,7 @@ pub struct Transaction {
     pub client_id: i32,
     pub transaction_id: i32,
     pub amount: Option<f32>,
+    pub disputed: bool,
 }
 
 pub const TRANSACTION_FIELDS: usize = 4;

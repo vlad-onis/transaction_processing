@@ -29,6 +29,7 @@ impl TransactionFactory {
                 .parse::<i32>()
                 .unwrap(),
             amount,
+            disputed: false,
         };
 
         if let Some(tx_type) = csv_entry.get(0) {
