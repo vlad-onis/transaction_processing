@@ -12,6 +12,9 @@ impl TransactionRepository {
         let database_access = db_utils::DatabaseAccess::new();
 
         if let Ok(db_access) = database_access {
+            db_access.collections[db_utils::TRANSACTION_COLLECTION]
+                .drop(None)
+                .expect("Could not drop transaction collection");
             return Some(TransactionRepository {
                 db_connection: db_access,
             });
@@ -63,13 +66,33 @@ impl TransactionRepository {
     //     ).expect("Could not update transaction");
     // }
     //
-    // pub fn find_transaction_by_id(&self, transaction_id: i32) -> bool {
-    //
-    //     let transaction_id_document = doc! {
-    //         "transaction_id": transaction_id
-    //     };
-    //
-    //     let found_transaction = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one(transaction_id_document, None);
-    //     found_transaction.unwrap().is_some()
-    // }
+    pub fn find_transaction_by_id(
+        &self,
+        transaction_id: i32,
+    ) -> Option<model::transaction::Transaction> {
+        let transaction_searched = doc! {
+            "transaction_id": transaction_id
+        };
+
+        let transaction_result = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
+            .find_one(transaction_searched, None);
+
+        if transaction_result.is_ok() {
+            let transaction_document = transaction_result.unwrap();
+
+            if transaction_document.is_none() {
+                return None;
+            }
+
+            let transaction_document = transaction_document.unwrap();
+            let transaction = mongodb::bson::from_document::<model::transaction::Transaction>(
+                transaction_document,
+            );
+            if transaction.is_ok() {
+                return Some(transaction.unwrap());
+            }
+        }
+
+        None
+    }
 }

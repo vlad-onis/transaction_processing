@@ -1,22 +1,12 @@
 use crate::service;
+use crate::utils::errors::ServiceCreationError;
 use crate::utils::factory;
 
 use csv::StringRecord;
 use std::error::Error;
-use std::fmt;
 use std::path;
 
 use crate::model::transaction::{Transaction, TRANSACTION_FIELDS};
-
-#[derive(Debug)]
-struct ServiceCreationError(String);
-
-impl fmt::Display for ServiceCreationError {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "Error: {}", self.0)
-    }
-}
-impl Error for ServiceCreationError {}
 
 pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = csv::Reader::from_path(input_path)?;

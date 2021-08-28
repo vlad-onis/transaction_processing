@@ -97,4 +97,14 @@ impl AccountFactory {
             locked,
         }
     }
+
+    pub fn create_default_account(client_id: i32) -> Account {
+        Account {
+            client_id,
+            available: 0.0,
+            total: 0.0,
+            held: 0.0,
+            locked: false,
+        }
+    }
 }

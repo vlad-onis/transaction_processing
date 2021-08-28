@@ -1,7 +1,8 @@
 use serde::Deserialize;
 use serde::Serialize;
+use std::cmp::PartialEq;
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub enum TransactionType {
     Deposit,
     Withdrawal,

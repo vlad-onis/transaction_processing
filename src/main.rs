@@ -22,6 +22,5 @@ fn main() {
         return;
     }
 
-    let res = utils::csv_utils::process_file(input_path.unwrap());
-    println!("{:?}", res);
+    let _res = utils::csv_utils::process_file(input_path.unwrap());
 }
