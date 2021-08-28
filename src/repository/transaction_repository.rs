@@ -1,7 +1,7 @@
 use crate::model;
 use crate::utils::db_utils;
 
-// use mongodb::bson::doc; Todo: uncomment when unused functions become used.
+use mongodb::bson::doc;
 
 pub struct TransactionRepository {
     pub db_connection: db_utils::DatabaseAccess,
@@ -20,10 +20,9 @@ impl TransactionRepository {
     }
 
     pub fn insert_transaction(&self, transaction: &model::transaction::Transaction) -> bool {
-        let transaction_document = mongodb::bson::to_document(transaction);
-
-        let transaction_searched = transaction_document.unwrap();
-        let transaction_to_be_inserted = transaction_searched.clone();
+        let transaction_searched = doc! {
+            "transaction_id" : transaction.transaction_id
+        };
 
         let exists = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
             .find_one(Some(transaction_searched), None)
@@ -32,9 +31,9 @@ impl TransactionRepository {
         if exists {
             return false;
         }
-
+        let transaction_document = mongodb::bson::to_document(transaction).unwrap();
         self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
-            .insert_one(transaction_to_be_inserted, None)
+            .insert_one(transaction_document, None)
             .expect("Could not insert");
 
         true
