@@ -14,7 +14,7 @@ pub enum TransactionType {
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Transaction {
     pub transaction_type: TransactionType,
-    pub client_id: i16,
+    pub client_id: i32,
     pub transaction_id: i32,
     pub amount: Option<f32>,
 }

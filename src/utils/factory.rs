@@ -1,3 +1,4 @@
+use crate::model::account::Account;
 use crate::model::transaction::Transaction;
 use crate::model::transaction::TransactionType;
 
@@ -21,7 +22,7 @@ impl TransactionFactory {
             transaction_type: TransactionType::Default,
             client_id: String::from(csv_entry.get(1).unwrap())
                 .trim()
-                .parse::<i16>()
+                .parse::<i32>()
                 .unwrap(),
             transaction_id: String::from(csv_entry.get(2).unwrap())
                 .trim()
@@ -75,5 +76,25 @@ impl TransactionFactory {
         }
 
         None
+    }
+}
+
+pub struct AccountFactory {}
+
+impl AccountFactory {
+    pub fn create_account(
+        client_id: i32,
+        available: f32,
+        total: f32,
+        held: f32,
+        locked: bool,
+    ) -> Account {
+        Account {
+            client_id,
+            available,
+            total,
+            held,
+            locked,
+        }
     }
 }

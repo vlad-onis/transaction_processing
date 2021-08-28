@@ -24,11 +24,11 @@ impl TransactionRepository {
             "transaction_id" : transaction.transaction_id
         };
 
-        let exists = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
+        let transaction_exists = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
             .find_one(Some(transaction_searched), None)
             .unwrap()
             .is_some();
-        if exists {
+        if transaction_exists {
             return false;
         }
         let transaction_document = mongodb::bson::to_document(transaction).unwrap();
