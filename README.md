@@ -90,6 +90,11 @@ git clone https://github.com/vladhateganos/transaction_processing.git
   * Note that input.csv is a file describing transactions. Modify it and play around with transactions and system's 
   behavior. </br>
 
+
+* Run unit tests:
+  ```sh
+  cargo test
+  ```
 <!-- DESIGN -->
 ## Design
 The design of this project can be described as a three layer architecure with the levels being the Controller, 
