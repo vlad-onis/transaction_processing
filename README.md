@@ -95,9 +95,20 @@ the database operations.
 <!-- COMPONENTS -->
 <br />
 <p align="center">
-    <img src="images/component_diagram.png" alt="Logo" width="400" height="400">
+    <img src="images/component_diagram.png" alt="Logo" width="750" height="500">
+
 ### Sequence diagram
+<!-- SEQUENCE -->
+<br />
+<p align="center">
+    <img src="images/sequence_diagram.png" alt="Logo" width="750" height="500">
+
 ### Flowchart of a dispute transaction
+<!-- SEQUENCE -->
+<br />
+<p align="center">
+    <img src="images/flow_chart.png" alt="Logo" width="750" height="500">
+</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
