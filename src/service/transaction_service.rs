@@ -45,10 +45,10 @@ impl TransactionService {
         if existent_account.is_none() {
             self.account_repository.insert_account(&account);
             if transaction.transaction_type != model::transaction::TransactionType::Deposit {
-                println!(
-                    "Transaction with transaction_id={} cannot be performed because the account_id={} is new, only DEPOSIT is allowed",
-                     transaction.transaction_id,
-                     account.client_id);
+                // println!(
+                //     "Transaction with transaction_id={} cannot be performed because the account_id={} is new, only DEPOSIT is allowed",
+                //      transaction.transaction_id,
+                //      account.client_id);
                 return; // Todo: return type???
             }
         } else {
@@ -63,10 +63,10 @@ impl TransactionService {
         }
 
         if account.locked {
-            println!(
-                "Transaction id={} cannot be processed at this time because the account client_id={} is locked",
-                 transaction.transaction_id,
-                 transaction.client_id);
+            // println!(
+            //     "Transaction id={} cannot be processed at this time because the account client_id={} is locked",
+            //      transaction.transaction_id,
+            //      transaction.client_id);
             return; // Todo: return type???
         }
 
@@ -91,10 +91,10 @@ impl TransactionService {
                     .transaction_repository
                     .find_transaction_by_id(transaction.transaction_id);
                 if disputed_transaction.is_none() {
-                    println!(
-                        "Disputed transaction with transaction_id={} does not exist",
-                        transaction.transaction_id
-                    );
+                    // println!(
+                    //     "Disputed transaction with transaction_id={} does not exist",
+                    //     transaction.transaction_id
+                    // );
                     return;
                 }
                 let mut disputed_transaction = disputed_transaction.unwrap();
@@ -113,15 +113,15 @@ impl TransactionService {
                     .transaction_repository
                     .find_transaction_by_id(transaction.transaction_id);
                 if disputed_transaction.is_none() {
-                    println!(
-                        "Disputed transaction with transaction_id={} does not exist",
-                        transaction.transaction_id
-                    );
+                    // println!(
+                    //     "Disputed transaction with transaction_id={} does not exist",
+                    //     transaction.transaction_id
+                    // );
                     return;
                 }
                 let mut disputed_transaction = disputed_transaction.unwrap();
                 if !disputed_transaction.disputed {
-                    println!("Transaction is not under dispute, RESOLVE will not be performed");
+                    // println!("Transaction is not under dispute, RESOLVE will not be performed");
                     return;
                 }
 
@@ -140,15 +140,15 @@ impl TransactionService {
                     .transaction_repository
                     .find_transaction_by_id(transaction.transaction_id);
                 if disputed_transaction.is_none() {
-                    println!(
-                        "Disputed transaction with transaction_id={} does not exist",
-                        transaction.transaction_id
-                    );
+                    // println!(
+                    //     "Disputed transaction with transaction_id={} does not exist",
+                    //     transaction.transaction_id
+                    // );
                     return;
                 }
                 let mut disputed_transaction = disputed_transaction.unwrap();
                 if !disputed_transaction.disputed {
-                    println!("Transaction is not under dispute, RESOLVE will not be performed");
+                    // println!("Transaction is not under dispute, RESOLVE will not be performed");
                     return;
                 }
 
@@ -163,7 +163,7 @@ impl TransactionService {
                     .update_transaction(disputed_transaction.transaction_id, &disputed_transaction);
             }
             TransactionType::Default => {
-                println!("Not yet implemented")
+                // println!("Not yet implemented")
             }
         }
 
@@ -171,7 +171,7 @@ impl TransactionService {
             .account_repository
             .update_account(account.client_id, &account)
         {
-            println!("Account with client_id={} was updated", account.client_id);
+            // println!("Account with client_id={} was updated", account.client_id);
         }
     }
 
@@ -192,17 +192,17 @@ impl TransactionService {
                 account.available -= amount;
                 Ok(())
             } else {
-                println!(
-                    "Insuficient funds for WITHDRAWAL with transaction_id={}",
-                    transaction.transaction_id
-                );
+                // println!(
+                //     "Insuficient funds for WITHDRAWAL with transaction_id={}",
+                //     transaction.transaction_id
+                // );
                 Err(TransactionFailedError(String::from("Withdrawal failed")))
             };
         } else {
-            println!(
-                "Amount not available: WITHDRAWAL did not modify account with client_id={}",
-                account.client_id
-            );
+            // println!(
+            //     "Amount not available: WITHDRAWAL did not modify account with client_id={}",
+            //     account.client_id
+            // );
             Err(TransactionFailedError(String::from("Deposit failed")))
         }
     }
@@ -223,10 +223,10 @@ impl TransactionService {
             account.available += amount;
             return Ok(());
         } else {
-            println!(
-                "Amount not available: DEPOSIT did not modify account with client_id={}",
-                account.client_id
-            );
+            // println!(
+            //     "Amount not available: DEPOSIT did not modify account with client_id={}",
+            //     account.client_id
+            // );
         }
 
         Err(TransactionFailedError(String::from("Deposit failed")))
@@ -248,10 +248,10 @@ impl TransactionService {
             account.held += amount;
             return Ok(());
         } else {
-            println!(
-                "Amount not available: DISPUTE did not modify account with client_id={}",
-                account.client_id
-            );
+            // println!(
+            //     "Amount not available: DISPUTE did not modify account with client_id={}",
+            //     account.client_id
+            // );
         }
 
         Err(TransactionFailedError(String::from("Deposit failed")))
@@ -273,10 +273,10 @@ impl TransactionService {
             account.held -= amount;
             return Ok(());
         } else {
-            println!(
-                "Amount not available: RESOLVE did not modify account with client_id={}",
-                account.client_id
-            );
+            // println!(
+            //     "Amount not available: RESOLVE did not modify account with client_id={}",
+            //     account.client_id
+            // );
         }
 
         Err(TransactionFailedError(String::from("Deposit failed")))
@@ -299,12 +299,21 @@ impl TransactionService {
             account.locked = true;
             return Ok(());
         } else {
-            println!(
-                "Amount not available: CHARGEBACK did not modify account with client_id={}",
-                account.client_id
-            );
+            // println!(
+            //     "Amount not available: CHARGEBACK did not modify account with client_id={}",
+            //     account.client_id
+            // );
         }
 
         Err(TransactionFailedError(String::from("Deposit failed")))
+    }
+
+    /// Returns all accounts available in the database. If no account is found it returns None.
+    pub fn get_accounts(&self) -> Option<Vec<model::account::Account>> {
+        let accounts = self.account_repository.find_all_accounts();
+        if accounts.is_empty() {
+            return None;
+        }
+        return Some(accounts);
     }
 }
