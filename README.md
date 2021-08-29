@@ -140,6 +140,16 @@ Mongodb could be used in async mode as opposed to how it is used now.
 <p align="center">
     <img src="images/improvments_diagram.png" alt="Logo" width="500" height="500">
 
+<!-- Notes and assumptions -->
+## Notes and assumptions
+* i32 ids were chosen for simplicity because serde does not support unsigned integer serialization.
+* Collections(tables) from the database are dropped at the start of the program -> running it twice on the same
+  dataset will produce the same output.
+* Rustfmt was used on all files, no custom formatting was used.
+* Any **invalid** csv entry will **STOP** the program at that point. This problem is fixed on 
+ <TP23-fix-program-end-on-csv-error-input> branch but **not merged** on purpose.
+
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
