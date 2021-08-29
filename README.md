@@ -76,13 +76,15 @@ Processing a transaction means updating client accounts and ensure error safety 
 ### Prerequisites and Usage
 * Install git on your system
 </br>
+
 * Firstly, install Rust using their official instructions: https://www.rust-lang.org/tools/install
 </br>
-* Clone this repository by running the following command: 
-```sh
-git clone https://github.com/vladhateganos/transaction_processing.git
-````
-
+  
+* Clone this repository by running the following command:
+  ```sh
+  git clone https://github.com/vladhateganos/transaction_processing.git
+  ```
+  
 * Build and run the project by running:
   ```sh
   cargo run --release -- input.csv > output.csv
