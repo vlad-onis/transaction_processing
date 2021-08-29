@@ -82,9 +82,23 @@ git clone https://github.com/vladhateganos/transaction_processing.git
   cargo run --release -- input.csv > output.csv
   ```
   * Note that input.csv is a file describing transactions. Modify it and play around with transactions and system's 
-  behavior.
+  behavior. </br>
 
-    
+<!-- DESIGN -->
+## Design
+The design of this project can be described as a three layer architecure with the levels being the Controller, 
+the Service and the Repository. The responsibilities go from top to bottom, controller just having to execute
+an operation, it calls the service which holds the business logic. The service then calls the repository because it abstracts 
+the database operations.
+</br>
+### Components diagram
+<!-- COMPONENTS -->
+<br />
+<p align="center">
+    <img src="images/component_diagram.png" alt="Logo" width="400" height="400">
+### Sequence diagram
+### Flowchart of a dispute transaction
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
