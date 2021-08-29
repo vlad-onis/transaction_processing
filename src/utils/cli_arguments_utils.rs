@@ -7,10 +7,10 @@ use std::path;
 pub fn parse_input(args: Vec<String>) -> Option<path::PathBuf> {
     let input_csv_file = match args.get(1) {
         None => {
-            println!(
-                "No input provided, please refer to the README.md \
-                file for input examples"
-            );
+            // println!(
+            //     "No input provided, please refer to the README.md \
+            //     file for input examples"
+            // );
             return None;
         }
         Some(file) => file,
@@ -25,17 +25,17 @@ pub fn parse_input(args: Vec<String>) -> Option<path::PathBuf> {
         return if let Some("csv") = file_extension {
             Some(input_path)
         } else {
-            println!(
-                "Input is NOT a CSV file please refer to the README.md \
-                file for input example"
-            );
+            // println!(
+            //     "Input is NOT a CSV file please refer to the README.md \
+            //     file for input example"
+            // );
             None
         };
     } else {
-        println!(
-            "Input file does NOT exist please refer to the README.md \");
-            file for input examples"
-        );
+        // println!(
+        //     "Input file does NOT exist please refer to the README.md \");
+        //     file for input examples"
+        // );
     }
 
     None

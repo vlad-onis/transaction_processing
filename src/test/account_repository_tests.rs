@@ -15,16 +15,16 @@ pub mod repository_tests {
         let mock_account = model::account::Account {
             client_id: 1000,
             available: 0.0,
-            total: 0.0,
             held: 0.0,
+            total: 0.0,
             locked: false,
         };
 
         let mock_account_duplicate = model::account::Account {
             client_id: 1000,
             available: 0.0,
-            total: 0.0,
             held: 0.0,
+            total: 0.0,
             locked: false,
         };
 

@@ -38,42 +38,42 @@ impl TransactionFactory {
         if let Some(tx_type) = csv_entry.get(0) {
             match tx_type {
                 "deposit" => {
-                    println!("Transaction type: DEPOSIT"); // Todo: remove
+                    // println!("Transaction type: DEPOSIT"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Deposit,
                         ..transaction
                     });
                 }
                 "withdrawal" => {
-                    println!("Transaction type: WITHDRAWAL"); // Todo: remove
+                    // println!("Transaction type: WITHDRAWAL"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Withdrawal,
                         ..transaction
                     });
                 }
                 "dispute" => {
-                    println!("Transaction type: DISPUTE"); // Todo: remove
+                    // println!("Transaction type: DISPUTE"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Dispute,
                         ..transaction
                     });
                 }
                 "resolve" => {
-                    println!("Transaction type: RESOLVE"); // Todo: remove
+                    // println!("Transaction type: RESOLVE"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Resolve,
                         ..transaction
                     });
                 }
                 "chargeback" => {
-                    println!("Transaction type: CHARGEBACK"); // Todo: remove
+                    // println!("Transaction type: CHARGEBACK"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Chargeback,
                         ..transaction
                     });
                 }
                 _ => {
-                    println!("Transaction Factory: Transaction type can't be handled yet");
+                    // println!("Transaction Factory: Transaction type can't be handled yet");
                     return None;
                 }
             }
@@ -89,15 +89,15 @@ impl AccountFactory {
     pub fn create_account(
         client_id: i32,
         available: f32,
-        total: f32,
         held: f32,
+        total: f32,
         locked: bool,
     ) -> Account {
         Account {
             client_id,
             available,
-            total,
             held,
+            total,
             locked,
         }
     }
@@ -106,8 +106,8 @@ impl AccountFactory {
         Account {
             client_id,
             available: 0.0,
-            total: 0.0,
             held: 0.0,
+            total: 0.0,
             locked: false,
         }
     }

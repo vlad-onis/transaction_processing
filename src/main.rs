@@ -14,6 +14,6 @@ fn main() {
 
     let res = utils::csv_utils::process_file(input_path.unwrap());
     if res.is_err() {
-        println!("The file was not processed entirely due to an error in the input file");
+        // println!("The file was not processed entirely due to an error in the input file");
     }
 }

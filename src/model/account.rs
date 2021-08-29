@@ -5,7 +5,7 @@ use serde::Serialize;
 pub struct Account {
     pub client_id: i32,
     pub available: f32,
-    pub total: f32,
     pub held: f32,
+    pub total: f32,
     pub locked: bool,
 }
