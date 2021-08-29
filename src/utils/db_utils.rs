@@ -12,6 +12,7 @@ pub struct DatabaseAccess {
 }
 
 impl DatabaseAccess {
+    /// Sets up the connection to the database. Returns the connection on success, Err otherwise.
     fn setup_db() -> Result<DatabaseAccess, mongodb::error::Error> {
         let client = sync::Client::with_uri_str("mongodb+srv://tester:transactiontest123@cluster0.xj3t7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")?;
         let database = client.database("transaction_processing_db");
@@ -29,6 +30,7 @@ impl DatabaseAccess {
         })
     }
 
+    /// Creates a new DatabaseAccess object using the setup function.
     pub fn new() -> Result<DatabaseAccess, mongodb::error::Error> {
         DatabaseAccess::setup_db()
     }

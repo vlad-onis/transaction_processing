@@ -8,10 +8,14 @@ pub struct TransactionRepository {
 }
 
 impl TransactionRepository {
+    /// Returns a TransactionRepository if the database connection can be established, None otherwise
     pub fn new() -> Option<TransactionRepository> {
         let database_access = db_utils::DatabaseAccess::new();
 
         if let Ok(db_access) = database_access {
+            db_access.collections[db_utils::TRANSACTION_COLLECTION]
+                .drop(None)
+                .expect("Could not drop transaction collection");
             return Some(TransactionRepository {
                 db_connection: db_access,
             });
@@ -19,6 +23,11 @@ impl TransactionRepository {
         None
     }
 
+    /// Inserts the given transaction in the Transaction collection of the database.
+    /// Returns true on success, false otherwise.
+    /// # Arguments
+    ///
+    /// * transaction - a Transaction to be inserted into the db
     pub fn insert_transaction(&self, transaction: &model::transaction::Transaction) -> bool {
         let transaction_searched = doc! {
             "transaction_id" : transaction.transaction_id
@@ -39,37 +48,65 @@ impl TransactionRepository {
         true
     }
 
-    // Todo: Uncomment when the following will be used. Delete otherwise
-    // pub fn delete_transaction(&self, transaction: &model::transaction::Transaction) {
-    //     let transaction_document = mongodb::bson::to_document(transaction);
-    //     self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one_and_delete(
-    //         transaction_document.unwrap(),
-    //         None,
-    //     ).expect("Could not delete transaction");
-    // }
-    //
-    // pub fn update_transaction(
-    //     &self,
-    //     old_transaction: &model::transaction::Transaction,
-    //     new_transaction: &model::transaction::Transaction,
-    // ) {
-    //     let old_transaction_document = mongodb::bson::to_document(old_transaction);
-    //     let new_transaction_document = mongodb::bson::to_document(new_transaction);
-    //
-    //     self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one_and_replace(
-    //         old_transaction_document.unwrap(),
-    //         new_transaction_document.unwrap(),
-    //         None,
-    //     ).expect("Could not update transaction");
-    // }
-    //
-    // pub fn find_transaction_by_id(&self, transaction_id: i32) -> bool {
-    //
-    //     let transaction_id_document = doc! {
-    //         "transaction_id": transaction_id
-    //     };
-    //
-    //     let found_transaction = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION].find_one(transaction_id_document, None);
-    //     found_transaction.unwrap().is_some()
-    // }
+    /// Updates the transaction represented by an ID with a new given value
+    /// Returns true on success, false otherwise.
+    /// # Arguments
+    /// * old_transaction_id - i32 representing the transaction to be updated
+    /// * new_transaction - Transaction holding the new values for update.
+    pub fn update_transaction(
+        &self,
+        old_transaction_id: i32,
+        new_transaction: &model::transaction::Transaction,
+    ) {
+        let old_transaction_document = doc! {
+            "transaction_id" : old_transaction_id
+        };
+
+        let new_transaction_document = mongodb::bson::to_document(new_transaction);
+
+        self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
+            .find_one_and_replace(
+                old_transaction_document,
+                new_transaction_document.unwrap(),
+                None,
+            )
+            .expect("Could not update transaction");
+    }
+
+    /// Searches for a transaction by it's transaction id.
+    /// Returns Option<Transaction>.
+    /// # Arguments
+    /// * transaction_id - i32
+    pub fn find_transaction_by_id(
+        &self,
+        transaction_id: i32,
+    ) -> Option<model::transaction::Transaction> {
+        let transaction_searched = doc! {
+            "transaction_id": transaction_id
+        };
+
+        let transaction_result = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
+            .find_one(transaction_searched, None);
+
+        // TODO: Clippy improvement
+        if transaction_result.is_ok() {
+            let transaction_document = transaction_result.unwrap();
+
+            // TODO: Clippy improvement
+            if transaction_document.is_none() {
+                return None;
+            }
+
+            let transaction_document = transaction_document.unwrap();
+            let transaction = mongodb::bson::from_document::<model::transaction::Transaction>(
+                transaction_document,
+            );
+            // TODO: clippy improvement
+            if transaction.is_ok() {
+                return Some(transaction.unwrap());
+            }
+        }
+
+        None
+    }
 }
