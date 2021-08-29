@@ -126,6 +126,18 @@ Mongodb is used for storage because it scales easy and it is performant. For thi
 files whould have been enough but the layered architecture in combination with the mongo database are 
 scalable, extensible and come out of the box with performance improvements described in "Future improvements".
 
+<!-- Future improvements -->
+## Future improvements
+The diagram below explains how this project can be taken into the concurency realm, by using a thread pool to
+handle messages from a message queue. Basically the project will be divided into an producer and a consumer 
+, producer will put transactions in a message queue (async await could also be used here). The consumer will
+benefit of a thread pool from which threads will treat transactions pulled from the message queue.
+Mongodb could be used in async mode as opposed to how it is used now.
+<!-- IMPROVEMENTS -->
+<br />
+<p align="center">
+    <img src="images/improvements.png" alt="Logo" width="500" height="500">
+
 <!-- CONTRIBUTING -->
 ## Contributing
 
