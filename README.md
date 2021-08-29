@@ -136,7 +136,7 @@ Mongodb could be used in async mode as opposed to how it is used now.
 <!-- IMPROVEMENTS -->
 <br />
 <p align="center">
-    <img src="images/improvements.png" alt="Logo" width="500" height="500">
+    <img src="images/improvments_diagram.png" alt="Logo" width="500" height="500">
 
 <!-- CONTRIBUTING -->
 ## Contributing
