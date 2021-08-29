@@ -107,7 +107,7 @@ the database operations.
 <!-- SEQUENCE -->
 <br />
 <p align="center">
-    <img src="images/flow_chart.png" alt="Logo" width="750" height="500">
+    <img src="images/flow_chart.png" alt="Logo" width="300" height="500">
 </p>
 
 <!-- CONTRIBUTING -->
