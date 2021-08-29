@@ -149,6 +149,7 @@ Mongodb could be used in async mode as opposed to how it is used now.
 * Rustfmt was used on all files, no custom formatting was used.
 * Any **invalid** csv entry will **STOP** the program at that point. This problem is fixed on 
  <TP23-fix-program-end-on-csv-error-input> branch but **not merged** on purpose.
+* Logs (println) left commented on purpose, for later ease of debugging.
 
 
 <!-- CONTRIBUTING -->
