@@ -89,15 +89,15 @@ impl AccountFactory {
     pub fn create_account(
         client_id: i32,
         available: f32,
-        total: f32,
         held: f32,
+        total: f32,
         locked: bool,
     ) -> Account {
         Account {
             client_id,
             available,
-            total,
             held,
+            total,
             locked,
         }
     }
@@ -106,8 +106,8 @@ impl AccountFactory {
         Account {
             client_id,
             available: 0.0,
-            total: 0.0,
             held: 0.0,
+            total: 0.0,
             locked: false,
         }
     }

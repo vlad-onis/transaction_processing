@@ -56,8 +56,8 @@ impl TransactionService {
             account = factory::AccountFactory::create_account(
                 existent_account.client_id,
                 existent_account.available,
-                existent_account.total,
                 existent_account.held,
+                existent_account.total,
                 existent_account.locked,
             );
         }
