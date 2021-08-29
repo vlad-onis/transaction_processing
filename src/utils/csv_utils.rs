@@ -30,7 +30,7 @@ fn create_output(
 /// CAUTION: If an entry is invalid in any way, the whole program stops at that transaction.
 /// # Arguments
 /// * input-path - Path object representing the path on the local filesystem to the csv file.
-pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
+pub fn process_file(input_path: path::PathBuf) -> Result<i32, Box<dyn Error>> {
     let mut reader = csv::Reader::from_path(input_path)?;
 
     let transaction_service = service::transaction_service::TransactionService::new();
@@ -42,11 +42,17 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
         )));
     }
 
+    let mut incorrect_csv_entries = 0;
+
     let transaction_service = transaction_service.unwrap();
 
     for (_entry_count, item) in reader.records().enumerate() {
-        let record = item?;
-
+        let record = item;
+        if record.is_err() {
+            incorrect_csv_entries += 1;
+            continue;
+        }
+        let record = record.unwrap();
         let transaction = process_entry(&record);
         if transaction.is_none() {
             // println!("Transaction {} could not be parsed", entry_count);
@@ -57,7 +63,10 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
         transaction_service.process_transaction(&mut transaction)
     }
 
-    create_output(transaction_service)
+    let output_result = create_output(transaction_service);
+    if output_result.is_err() {}
+
+    Ok(incorrect_csv_entries)
 }
 
 /// Processes a single csv entry, returns a Transaction object on success, None otherwise.
