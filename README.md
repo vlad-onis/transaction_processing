@@ -50,11 +50,13 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
+The transaction processing is an application that reads possible transactions from a csv file and processes them before 
+returning another csv file containing the results. It uses mongodb for storage, because the app has to keep track of its
+clients and previous transactions. </br>
+Processing a transaction means updating client accounts and ensure error safety along the way.
 
 ### Built With
 
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 * [Rust](https://www.rust-lang.org/)
 * [Crates](https://crates.io/)
 * [Mongodb](https://www.mongodb.com/)
@@ -65,34 +67,37 @@ This section should list any major frameworks that you built your project using.
 
 
 
-### Prerequisites
+### Prerequisites and Usage
+* Install git on your system
+</br>
+* Firstly, install Rust using their official instructions: https://www.rust-lang.org/tools/install
+</br>
+* Clone this repository by running the following command: 
+```sh
+git clone https://github.com/vladhateganos/transaction_processing.git
+````
 
-* cargo
+* Build and run the project by running:
   ```sh
-  cargo run --release
+  cargo run --release -- input.csv > output.csv
   ```
+  * Note that input.csv is a file describing transactions. Modify it and play around with transactions and system's 
+  behavior.
 
-### Installation
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-<!-- ROADMAP -->
-## Roadmap
-
+    
 <!-- CONTRIBUTING -->
 ## Contributing
 
 1. Fork the Project
-2. Create your Branch based on the issue id (`git checkout -b TP-X-AmazingFeature`)
-3. Commit your Changes using issue id (`git commit -m 'TP-X - Added some AmazingFeature'`)
+2. Create your Branch based on the issue id (`git checkout -b TP-<X>-AmazingFeature`)
+3. Commit your Changes using issue id (`git commit -m 'TP-<X> - Added some AmazingFeature'`)
 4. Push to the Branch (`git push --set-upstream ...`)
 5. Open a Pull Request
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License.
 
 
 
