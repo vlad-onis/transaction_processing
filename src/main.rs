@@ -12,15 +12,8 @@ fn main() {
     // args not available after this line - ownership
     let input_path = utils::cli_arguments_utils::parse_input(args);
 
-    // Todo: to remove
-    if let Some(file) = input_path.as_ref() {
-        println!(
-            "Input file: {}",
-            file.clone().into_os_string().into_string().unwrap()
-        );
-    } else {
-        return;
+    let res = utils::csv_utils::process_file(input_path.unwrap());
+    if res.is_err() {
+        println!("The file was not processed entirely due to an error in the input file");
     }
-
-    let _res = utils::csv_utils::process_file(input_path.unwrap());
 }

@@ -1,6 +1,9 @@
 use std::ffi::OsStr;
 use std::path;
 
+/// Returns a path to the csv file if there is a valid csv file, None otherwise.
+/// # Arguments
+/// * args - Vector of command line arguments.
 pub fn parse_input(args: Vec<String>) -> Option<path::PathBuf> {
     let input_csv_file = match args.get(1) {
         None => {

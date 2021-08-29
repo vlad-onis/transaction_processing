@@ -11,6 +11,8 @@ pub struct TransactionService {
 }
 
 impl TransactionService {
+    /// Returns a new Option<TransactionService> instance if both transaction_repository and account repository were created sucessfully,
+    /// None otherwise
     pub fn new() -> Option<TransactionService> {
         let transaction_repository =
             repository::transaction_repository::TransactionRepository::new();
@@ -25,6 +27,15 @@ impl TransactionService {
         None
     }
 
+    /// Processes a transaction from end to end.
+    /// This function receives a transaction and an account.
+    /// It first validates the account, if it does not exist in the database, a basic account is created. At this point only a Deposit can be performed.
+    /// If the account is locked no transaction can happen on that account anymore.
+    /// Based on the transaction type the transaction is treated differently
+    /// After processing the transaction, the transaction and account are updated in the database.
+    /// # Arguments
+    /// * transaction - Transaction object representing the transaction that has to be processed
+    ///
     pub fn process_transaction(&self, transaction: &mut model::transaction::Transaction) {
         let existent_account = self
             .account_repository
@@ -164,6 +175,11 @@ impl TransactionService {
         }
     }
 
+    /// Returns the result of a withdrawal processing.
+    /// It first validates the account amounts and rules that make a withdrawal transaction valid.
+    /// # Arguments
+    /// * account - Account for which the transaction happens
+    /// * transaction - Transaction object representing the withdrawal transaction
     fn process_withdrawal(
         &self,
         account: &mut model::account::Account,
@@ -191,6 +207,11 @@ impl TransactionService {
         }
     }
 
+    /// Returns the result of a deposit processing.
+    /// It first validates the account amounts and rules that make a deposit transaction valid.
+    /// # Arguments
+    /// * account - Account for which the transaction happens
+    /// * transaction - Transaction object representing the deposit transaction
     fn process_deposit(
         &self,
         account: &mut model::account::Account,
@@ -211,6 +232,11 @@ impl TransactionService {
         Err(TransactionFailedError(String::from("Deposit failed")))
     }
 
+    /// Returns the result of a dispute processing.
+    /// It first validates the account amounts and rules that make a dispute transaction valid.
+    /// # Arguments
+    /// * account - Account for which the transaction happens
+    /// * transaction - Transaction object representing the dispute transaction - it contains the disputed transaction id.
     fn process_dispute(
         &self,
         account: &mut model::account::Account,
@@ -231,6 +257,11 @@ impl TransactionService {
         Err(TransactionFailedError(String::from("Deposit failed")))
     }
 
+    /// Returns the result of a resolve processing.
+    /// It first validates the account amounts and rules that make a resolve transaction valid.
+    /// # Arguments
+    /// * account - Account for which the transaction happens
+    /// * transaction - Transaction object representing the dispute transaction - it contains the disputed transaction id.
     fn process_resolve(
         &self,
         account: &mut model::account::Account,
@@ -251,6 +282,11 @@ impl TransactionService {
         Err(TransactionFailedError(String::from("Deposit failed")))
     }
 
+    /// Returns the result of a chargeback processing.
+    /// It first validates the account amounts and rules that make a chargeback transaction valid.
+    /// # Arguments
+    /// * account - Account for which the transaction happens
+    /// * transaction - Transaction object representing the chargeback transaction - it contains the disputed transaction id.
     fn process_chargeback(
         &self,
         account: &mut model::account::Account,

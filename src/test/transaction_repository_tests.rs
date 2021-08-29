@@ -17,6 +17,7 @@ pub mod repository_tests {
             client_id: 200,
             transaction_id: 1,
             amount: None,
+            disputed: false,
         };
 
         let mock_transaction_duplicate = model::transaction::Transaction {
@@ -24,6 +25,7 @@ pub mod repository_tests {
             client_id: 200,
             transaction_id: 1,
             amount: None,
+            disputed: false,
         };
 
         let transaction_repository = transaction_repository.unwrap();

@@ -8,6 +8,11 @@ use std::path;
 
 use crate::model::transaction::{Transaction, TRANSACTION_FIELDS};
 
+/// Creates a service responsible for transaction handling.
+/// It creates transactions by reading the csv file line by line. One line representing a valid transaction.
+/// CAUTION: If an entry is invalid in any way, the whole program stops at that transaction.
+/// # Arguments
+/// * input-path - Path object representing the path on the local filesystem to the csv file.
 pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = csv::Reader::from_path(input_path)?;
 
@@ -38,6 +43,7 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Processes a single csv entry, returns a Transaction object on success, None otherwise.
 fn process_entry(entry: &StringRecord) -> Option<Transaction> {
     if entry.len() != TRANSACTION_FIELDS {
         println!("Entry {:?} is not valid", entry);

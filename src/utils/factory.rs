@@ -7,6 +7,9 @@ use csv::StringRecord;
 pub struct TransactionFactory {}
 
 impl TransactionFactory {
+    /// Creates a transaction object based on the input from the csv file
+    /// # Arguments
+    /// * csv_entry - StringRecord representing a single valid entry in the csv file
     pub fn create_transaction(csv_entry: &StringRecord) -> Option<Transaction> {
         let mut amount: Option<f32> = None;
         let temp_amount = String::from(csv_entry.get(3).unwrap());
@@ -35,35 +38,35 @@ impl TransactionFactory {
         if let Some(tx_type) = csv_entry.get(0) {
             match tx_type {
                 "deposit" => {
-                    println!("IT'S A DEPOSIT"); // Todo: remove
+                    println!("Transaction type: DEPOSIT"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Deposit,
                         ..transaction
                     });
                 }
                 "withdrawal" => {
-                    println!("IT'S A WITHDRAW"); // Todo: remove
+                    println!("Transaction type: WITHDRAWAL"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Withdrawal,
                         ..transaction
                     });
                 }
                 "dispute" => {
-                    println!("IT'S A DISPUTE"); // Todo: remove
+                    println!("Transaction type: DISPUTE"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Dispute,
                         ..transaction
                     });
                 }
                 "resolve" => {
-                    println!("IT'S A RESOLVE"); // Todo: remove
+                    println!("Transaction type: RESOLVE"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Resolve,
                         ..transaction
                     });
                 }
                 "chargeback" => {
-                    println!("IT'S A CHARGEBACK"); // Todo: remove
+                    println!("Transaction type: CHARGEBACK"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Chargeback,
                         ..transaction
