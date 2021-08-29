@@ -45,6 +45,7 @@
         <li><a href="#design-decisions">Design decisions</a></li>
       </ul>
   </li>
+    <li><a href="#notes-and-assumptions">Notes and assumptions</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -76,13 +77,15 @@ Processing a transaction means updating client accounts and ensure error safety 
 ### Prerequisites and Usage
 * Install git on your system
 </br>
+
 * Firstly, install Rust using their official instructions: https://www.rust-lang.org/tools/install
 </br>
-* Clone this repository by running the following command: 
-```sh
-git clone https://github.com/vladhateganos/transaction_processing.git
-````
-
+  
+* Clone this repository by running the following command:
+  ```sh
+  git clone https://github.com/vladhateganos/transaction_processing.git
+  ```
+  
 * Build and run the project by running:
   ```sh
   cargo run --release -- input.csv > output.csv
@@ -137,6 +140,16 @@ Mongodb could be used in async mode as opposed to how it is used now.
 <br />
 <p align="center">
     <img src="images/improvments_diagram.png" alt="Logo" width="500" height="500">
+
+<!-- Notes and assumptions -->
+## Notes and assumptions
+* i32 ids were chosen for simplicity because serde does not support unsigned integer serialization.
+* Collections(tables) from the database are dropped at the start of the program -> running it twice on the same
+  dataset will produce the same output.
+* Rustfmt was used on all files, no custom formatting was used.
+* Any **invalid** csv entry will **STOP** the program at that point. This problem is fixed on 
+ <TP23-fix-program-end-on-csv-error-input> branch but **not merged** on purpose.
+
 
 <!-- CONTRIBUTING -->
 ## Contributing
