@@ -33,12 +33,18 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#prerequisites-and-usage">Prerequisites and Usage</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li>
+      <a href="#design">Design</a>
+      <ul>
+        <li><a href="#components-diagram">Components diagram</a></li>
+        <li><a href="#sequence-diagram">Sequence diagram</a></li>
+        <li><a href="#flowchart-of-a-dispute-transaction">Flowchart of a dispute transaction</a></li>
+        <li><a href="#design-decisions">Design decisions</a></li>
+      </ul>
+  </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -109,6 +115,11 @@ the database operations.
 <p align="center">
     <img src="images/flowchart_diagram.png" alt="Logo" width="350" height="650">
 </p>
+
+### Design decisions
+Mongodb is used for storage because it scales easy and it is performant. For this proof of concept probably using
+files whould have been enough but the layered architecture in combination with the mongo database are 
+scalable, extensible and come out of the box with performance improvements described in "Future improvements".
 
 <!-- CONTRIBUTING -->
 ## Contributing
