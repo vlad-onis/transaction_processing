@@ -36,7 +36,7 @@ impl TransactionFactory {
         };
 
         if let Some(tx_type) = csv_entry.get(0) {
-            match tx_type {
+            match tx_type.trim() {
                 "deposit" => {
                     // println!("Transaction type: DEPOSIT"); // Todo: remove
                     return Some(Transaction {
