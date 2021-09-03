@@ -1,5 +1,4 @@
 use crate::service;
-use crate::utils::errors::ServiceCreationError;
 use crate::utils::factory;
 
 use csv::StringRecord;
@@ -33,16 +32,7 @@ fn create_output(
 pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
     let mut reader = csv::Reader::from_path(input_path)?;
 
-    let transaction_service = service::transaction_service::TransactionService::new();
-
-    if transaction_service.is_none() {
-        // println!("Could not create service, stopping...");
-        return Err(Box::new(ServiceCreationError(
-            "Could not create transaction service".into(),
-        )));
-    }
-
-    let transaction_service = transaction_service.unwrap();
+    let transaction_service = service::transaction_service::TransactionService::new().unwrap();
 
     for (_entry_count, item) in reader.records().enumerate() {
         let record = item?;
