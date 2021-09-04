@@ -9,7 +9,7 @@ pub struct TransactionRepository {
 }
 
 impl TransactionRepository {
-    /// Returns a TransactionRepository if the database connection can be established, None otherwise
+    /// Returns a TransactionRepository if the database connection can be established, Err otherwise
     pub fn new() -> Result<TransactionRepository, Box<dyn error::Error>> {
         let database_access = db_utils::DatabaseAccess::new();
 
@@ -22,9 +22,7 @@ impl TransactionRepository {
                     db_connection: db_access,
                 });
             }
-            Err(error) => {
-                Err(error.into())
-            }
+            Err(error) => Err(error.into()),
         }
     }
 

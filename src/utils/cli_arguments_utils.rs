@@ -1,6 +1,6 @@
 use std::ffi::OsStr;
-use std::path;
 use std::io;
+use std::path;
 
 /// Returns a path to the csv file if there is a valid csv file, None otherwise.
 /// # Arguments
@@ -30,7 +30,10 @@ pub fn parse_input(args: Vec<String>) -> Result<path::PathBuf, io::Error> {
             //     "Input is NOT a CSV file please refer to the README.md \
             //     file for input example"
             // );
-            return Err(io::Error::new(io::ErrorKind::NotFound, "Input is not a csv file"));
+            return Err(io::Error::new(
+                io::ErrorKind::NotFound,
+                "Input is not a csv file",
+            ));
         };
     } else {
         // println!(
@@ -39,5 +42,8 @@ pub fn parse_input(args: Vec<String>) -> Result<path::PathBuf, io::Error> {
         // );
     }
 
-    Err(io::Error::new(io::ErrorKind::NotFound, "Input file does not exist"))
+    Err(io::Error::new(
+        io::ErrorKind::NotFound,
+        "Input file does not exist",
+    ))
 }

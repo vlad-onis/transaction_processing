@@ -15,7 +15,7 @@ pub struct TransactionService {
 impl TransactionService {
     /// Returns a new Option<TransactionService> instance if both transaction_repository and account repository were created sucessfully,
     /// None otherwise
-    pub fn new() -> Result<TransactionService, Box<dyn error::Error>>{
+    pub fn new() -> Result<TransactionService, Box<dyn error::Error>> {
         let transaction_repository =
             repository::transaction_repository::TransactionRepository::new()?;
         let account_repository = repository::account_repository::AccountRepository::new()?;

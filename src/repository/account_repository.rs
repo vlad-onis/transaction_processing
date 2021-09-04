@@ -9,7 +9,7 @@ pub struct AccountRepository {
 }
 
 impl AccountRepository {
-    /// Returns a AccountRepository if the database connection can be established, None otherwise
+    /// Returns a AccountRepository if the database connection can be established, Err otherwise
     pub fn new() -> Result<AccountRepository, Box<dyn error::Error>> {
         let database_access = db_utils::DatabaseAccess::new();
 
@@ -22,9 +22,7 @@ impl AccountRepository {
                     db_connection: db_access,
                 });
             }
-            Err(error) => {
-                Err(error.into())
-            }
+            Err(error) => Err(error.into()),
         }
     }
 
