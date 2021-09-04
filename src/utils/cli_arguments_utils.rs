@@ -1,17 +1,18 @@
 use std::ffi::OsStr;
+use std::io;
 use std::path;
 
 /// Returns a path to the csv file if there is a valid csv file, None otherwise.
 /// # Arguments
 /// * args - Vector of command line arguments.
-pub fn parse_input(args: Vec<String>) -> Option<path::PathBuf> {
+pub fn parse_input(args: Vec<String>) -> Result<path::PathBuf, io::Error> {
     let input_csv_file = match args.get(1) {
         None => {
             // println!(
             //     "No input provided, please refer to the README.md \
             //     file for input examples"
             // );
-            return None;
+            return Err(io::Error::new(io::ErrorKind::NotFound, "No input provided"));
         }
         Some(file) => file,
     };
@@ -23,13 +24,16 @@ pub fn parse_input(args: Vec<String>) -> Option<path::PathBuf> {
         let file_extension = input_path.extension().and_then(OsStr::to_str);
 
         return if let Some("csv") = file_extension {
-            Some(input_path)
+            Ok(input_path)
         } else {
             // println!(
             //     "Input is NOT a CSV file please refer to the README.md \
             //     file for input example"
             // );
-            None
+            return Err(io::Error::new(
+                io::ErrorKind::NotFound,
+                "Input is not a csv file",
+            ));
         };
     } else {
         // println!(
@@ -38,5 +42,8 @@ pub fn parse_input(args: Vec<String>) -> Option<path::PathBuf> {
         // );
     }
 
-    None
+    Err(io::Error::new(
+        io::ErrorKind::NotFound,
+        "Input file does not exist",
+    ))
 }

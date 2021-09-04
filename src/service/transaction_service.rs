@@ -5,6 +5,8 @@ use crate::utils::errors;
 use crate::utils::errors::TransactionFailedError;
 use crate::utils::factory;
 
+use std::error;
+
 pub struct TransactionService {
     pub transaction_repository: repository::transaction_repository::TransactionRepository,
     pub account_repository: repository::account_repository::AccountRepository,
@@ -13,18 +15,15 @@ pub struct TransactionService {
 impl TransactionService {
     /// Returns a new Option<TransactionService> instance if both transaction_repository and account repository were created sucessfully,
     /// None otherwise
-    pub fn new() -> Option<TransactionService> {
+    pub fn new() -> Result<TransactionService, Box<dyn error::Error>> {
         let transaction_repository =
-            repository::transaction_repository::TransactionRepository::new();
-        let account_repository = repository::account_repository::AccountRepository::new();
+            repository::transaction_repository::TransactionRepository::new()?;
+        let account_repository = repository::account_repository::AccountRepository::new()?;
 
-        if transaction_repository.is_some() && account_repository.is_some() {
-            return Some(TransactionService {
-                transaction_repository: transaction_repository.unwrap(),
-                account_repository: account_repository.unwrap(),
-            });
-        }
-        None
+        Ok(TransactionService {
+            transaction_repository,
+            account_repository,
+        })
     }
 
     /// Processes a transaction from end to end.

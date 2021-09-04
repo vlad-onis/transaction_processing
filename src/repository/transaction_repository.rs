@@ -2,25 +2,28 @@ use crate::model;
 use crate::utils::db_utils;
 
 use mongodb::bson::doc;
+use std::error;
 
 pub struct TransactionRepository {
     pub db_connection: db_utils::DatabaseAccess,
 }
 
 impl TransactionRepository {
-    /// Returns a TransactionRepository if the database connection can be established, None otherwise
-    pub fn new() -> Option<TransactionRepository> {
+    /// Returns a TransactionRepository if the database connection can be established, Err otherwise
+    pub fn new() -> Result<TransactionRepository, Box<dyn error::Error>> {
         let database_access = db_utils::DatabaseAccess::new();
 
-        if let Ok(db_access) = database_access {
-            db_access.collections[db_utils::TRANSACTION_COLLECTION]
-                .drop(None)
-                .expect("Could not drop transaction collection");
-            return Some(TransactionRepository {
-                db_connection: db_access,
-            });
+        match database_access {
+            Ok(db_access) => {
+                db_access.collections[db_utils::TRANSACTION_COLLECTION]
+                    .drop(None)
+                    .expect("Could not drop transaction collection");
+                return Ok(TransactionRepository {
+                    db_connection: db_access,
+                });
+            }
+            Err(error) => Err(error.into()),
         }
-        None
     }
 
     /// Inserts the given transaction in the Transaction collection of the database.
