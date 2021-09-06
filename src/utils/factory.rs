@@ -15,7 +15,6 @@ impl TransactionFactory {
         let temp_amount = String::from(csv_entry.get(3).unwrap());
 
         if !temp_amount.is_empty() {
-            // Application could panic here
             amount = Some(temp_amount.trim().parse::<f32>().unwrap());
         }
 
@@ -38,42 +37,36 @@ impl TransactionFactory {
         if let Some(tx_type) = csv_entry.get(0) {
             match tx_type.trim() {
                 "deposit" => {
-                    // println!("Transaction type: DEPOSIT"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Deposit,
                         ..transaction
                     });
                 }
                 "withdrawal" => {
-                    // println!("Transaction type: WITHDRAWAL"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Withdrawal,
                         ..transaction
                     });
                 }
                 "dispute" => {
-                    // println!("Transaction type: DISPUTE"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Dispute,
                         ..transaction
                     });
                 }
                 "resolve" => {
-                    // println!("Transaction type: RESOLVE"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Resolve,
                         ..transaction
                     });
                 }
                 "chargeback" => {
-                    // println!("Transaction type: CHARGEBACK"); // Todo: remove
                     return Some(Transaction {
                         transaction_type: TransactionType::Chargeback,
                         ..transaction
                     });
                 }
                 _ => {
-                    // println!("Transaction Factory: Transaction type can't be handled yet");
                     return None;
                 }
             }

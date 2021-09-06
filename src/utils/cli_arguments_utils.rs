@@ -8,10 +8,6 @@ use std::path;
 pub fn parse_input(args: Vec<String>) -> Result<path::PathBuf, io::Error> {
     let input_csv_file = match args.get(1) {
         None => {
-            // println!(
-            //     "No input provided, please refer to the README.md \
-            //     file for input examples"
-            // );
             return Err(io::Error::new(io::ErrorKind::NotFound, "No input provided"));
         }
         Some(file) => file,
@@ -26,20 +22,12 @@ pub fn parse_input(args: Vec<String>) -> Result<path::PathBuf, io::Error> {
         return if let Some("csv") = file_extension {
             Ok(input_path)
         } else {
-            // println!(
-            //     "Input is NOT a CSV file please refer to the README.md \
-            //     file for input example"
-            // );
             return Err(io::Error::new(
                 io::ErrorKind::NotFound,
                 "Input is not a csv file",
             ));
         };
     } else {
-        // println!(
-        //     "Input file does NOT exist please refer to the README.md \");
-        //     file for input examples"
-        // );
     }
 
     Err(io::Error::new(

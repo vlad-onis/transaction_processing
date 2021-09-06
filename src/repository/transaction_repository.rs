@@ -91,11 +91,9 @@ impl TransactionRepository {
         let transaction_result = self.db_connection.collections[db_utils::TRANSACTION_COLLECTION]
             .find_one(transaction_searched, None);
 
-        // TODO: Clippy improvement
         if transaction_result.is_ok() {
             let transaction_document = transaction_result.unwrap();
 
-            // TODO: Clippy improvement
             if transaction_document.is_none() {
                 return None;
             }
@@ -104,7 +102,6 @@ impl TransactionRepository {
             let transaction = mongodb::bson::from_document::<model::transaction::Transaction>(
                 transaction_document,
             );
-            // TODO: clippy improvement
             if transaction.is_ok() {
                 return Some(transaction.unwrap());
             }
