@@ -38,22 +38,22 @@ impl TransactionService {
     pub fn process_transaction(&self, transaction: &mut model::transaction::Transaction) {
         let existent_account = self
             .account_repository
-            .find_account_by_client_id(transaction.client_id);
+            .find_account_by_client_id(transaction.client);
 
-        let mut account = factory::AccountFactory::create_default_account(transaction.client_id);
+        let mut account = factory::AccountFactory::create_default_account(transaction.client);
         if existent_account.is_none() {
             self.account_repository.insert_account(&account);
             if transaction.transaction_type != model::transaction::TransactionType::Deposit {
                 // println!(
                 //     "Transaction with transaction_id={} cannot be performed because the account_id={} is new, only DEPOSIT is allowed",
                 //      transaction.transaction_id,
-                //      account.client_id);
+                //      account.client);
                 return; // Todo: return type???
             }
         } else {
             let existent_account = existent_account.unwrap();
             account = factory::AccountFactory::create_account(
-                existent_account.client_id,
+                existent_account.client,
                 existent_account.available,
                 existent_account.held,
                 existent_account.total,
@@ -63,9 +63,9 @@ impl TransactionService {
 
         if account.locked {
             // println!(
-            //     "Transaction id={} cannot be processed at this time because the account client_id={} is locked",
+            //     "Transaction id={} cannot be processed at this time because the account client={} is locked",
             //      transaction.transaction_id,
-            //      transaction.client_id);
+            //      transaction.client);
             return; // Todo: return type???
         }
 
@@ -168,9 +168,9 @@ impl TransactionService {
 
         if self
             .account_repository
-            .update_account(account.client_id, &account)
+            .update_account(account.client, &account)
         {
-            // println!("Account with client_id={} was updated", account.client_id);
+            // println!("Account with client={} was updated", account.client);
         }
     }
 
@@ -199,8 +199,8 @@ impl TransactionService {
             };
         } else {
             // println!(
-            //     "Amount not available: WITHDRAWAL did not modify account with client_id={}",
-            //     account.client_id
+            //     "Amount not available: WITHDRAWAL did not modify account with client={}",
+            //     account.client
             // );
             Err(TransactionFailedError(String::from("Deposit failed")))
         }
@@ -223,8 +223,8 @@ impl TransactionService {
             return Ok(());
         } else {
             // println!(
-            //     "Amount not available: DEPOSIT did not modify account with client_id={}",
-            //     account.client_id
+            //     "Amount not available: DEPOSIT did not modify account with client={}",
+            //     account.client
             // );
         }
 
@@ -248,8 +248,8 @@ impl TransactionService {
             return Ok(());
         } else {
             // println!(
-            //     "Amount not available: DISPUTE did not modify account with client_id={}",
-            //     account.client_id
+            //     "Amount not available: DISPUTE did not modify account with client={}",
+            //     account.client
             // );
         }
 
@@ -273,8 +273,8 @@ impl TransactionService {
             return Ok(());
         } else {
             // println!(
-            //     "Amount not available: RESOLVE did not modify account with client_id={}",
-            //     account.client_id
+            //     "Amount not available: RESOLVE did not modify account with client={}",
+            //     account.client
             // );
         }
 
@@ -299,8 +299,8 @@ impl TransactionService {
             return Ok(());
         } else {
             // println!(
-            //     "Amount not available: CHARGEBACK did not modify account with client_id={}",
-            //     account.client_id
+            //     "Amount not available: CHARGEBACK did not modify account with client={}",
+            //     account.client
             // );
         }
 

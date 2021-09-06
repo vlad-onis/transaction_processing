@@ -23,7 +23,7 @@ impl TransactionFactory {
         // Dummy transaction used to avoid code duplication.
         let transaction = Transaction {
             transaction_type: TransactionType::Default,
-            client_id: String::from(csv_entry.get(1).unwrap())
+            client: String::from(csv_entry.get(1).unwrap())
                 .trim()
                 .parse::<i32>()
                 .unwrap(),
@@ -87,14 +87,14 @@ pub struct AccountFactory {}
 
 impl AccountFactory {
     pub fn create_account(
-        client_id: i32,
+        client: i32,
         available: f32,
         held: f32,
         total: f32,
         locked: bool,
     ) -> Account {
         Account {
-            client_id,
+            client: client,
             available,
             held,
             total,
@@ -102,9 +102,9 @@ impl AccountFactory {
         }
     }
 
-    pub fn create_default_account(client_id: i32) -> Account {
+    pub fn create_default_account(client: i32) -> Account {
         Account {
-            client_id,
+            client: client,
             available: 0.0,
             held: 0.0,
             total: 0.0,

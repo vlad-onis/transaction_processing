@@ -14,7 +14,7 @@ pub mod repository_tests {
 
         let mock_transaction = model::transaction::Transaction {
             transaction_type: model::transaction::TransactionType::Default,
-            client_id: 200,
+            client: 200,
             transaction_id: 1,
             amount: None,
             disputed: false,
@@ -22,7 +22,7 @@ pub mod repository_tests {
 
         let mock_transaction_duplicate = model::transaction::Transaction {
             transaction_type: model::transaction::TransactionType::Default,
-            client_id: 200,
+            client: 200,
             transaction_id: 1,
             amount: None,
             disputed: false,
