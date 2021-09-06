@@ -33,7 +33,7 @@ impl AccountRepository {
     /// * account - an Account to be inserted into the db
     pub fn insert_account(&self, account: &model::account::Account) -> bool {
         let account_searched = doc! {
-            "client_id": account.client_id
+            "client": account.client
         };
 
         let account_exists = self.db_connection.collections[db_utils::ACCOUNT_COLLECTION]
@@ -80,10 +80,10 @@ impl AccountRepository {
     /// Searches for an account by it's client id.
     /// Returns Option<Account>.
     /// # Arguments
-    /// * client_id - i32
-    pub fn find_account_by_client_id(&self, client_id: i32) -> Option<model::account::Account> {
+    /// * client - i32
+    pub fn find_account_by_client_id(&self, client: i32) -> Option<model::account::Account> {
         let account_searched = doc! {
-            "client_id": client_id
+            "client": client
         };
 
         let account_result = self.db_connection.collections[db_utils::ACCOUNT_COLLECTION]
@@ -113,15 +113,15 @@ impl AccountRepository {
     /// Updates the account represented by an ID with a new given value
     /// Returns true on success, false otherwise.
     /// # Arguments
-    /// * old_account_client_id - i32 representing the account to be updated
+    /// * old_account_client - i32 representing the account to be updated
     /// * new_account - Account holding the new values for update.
     pub fn update_account(
         &self,
-        old_account_client_id: i32,
+        old_account_client: i32,
         new_account: &model::account::Account,
     ) -> bool {
         let old_account_document = doc! {
-            "client_id": old_account_client_id
+            "client": old_account_client
         };
         let new_account_document = mongodb::bson::to_document(new_account);
 

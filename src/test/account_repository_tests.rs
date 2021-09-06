@@ -13,7 +13,7 @@ pub mod repository_tests {
             account_repository::AccountRepository::new().ok_or("repository creation failed");
 
         let mock_account = model::account::Account {
-            client_id: 1000,
+            client: 1000,
             available: 0.0,
             held: 0.0,
             total: 0.0,
@@ -21,7 +21,7 @@ pub mod repository_tests {
         };
 
         let mock_account_duplicate = model::account::Account {
-            client_id: 1000,
+            client: 1000,
             available: 0.0,
             held: 0.0,
             total: 0.0,
@@ -33,7 +33,7 @@ pub mod repository_tests {
         account_repository.insert_account(&mock_account_duplicate);
 
         let test_doc = doc! {
-            "client_id" : 1000
+            "client" : 1000
         };
 
         let cnt = account_repository.db_connection.collections[utils::db_utils::ACCOUNT_COLLECTION]
