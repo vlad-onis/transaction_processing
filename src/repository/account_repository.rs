@@ -68,7 +68,6 @@ impl AccountRepository {
             let account =
                 mongodb::bson::from_document::<model::account::Account>(account_document.unwrap());
 
-            // TODO: clippy improvement
             if account.is_ok() {
                 accounts.push(account.unwrap());
             }
@@ -89,11 +88,9 @@ impl AccountRepository {
         let account_result = self.db_connection.collections[db_utils::ACCOUNT_COLLECTION]
             .find_one(account_searched, None);
 
-        // TODO: Clippy improvement
         if account_result.is_ok() {
             let account_document = account_result.unwrap();
 
-            // TODO: Clippy improvement
             if account_document.is_none() {
                 return None;
             }
@@ -101,7 +98,6 @@ impl AccountRepository {
             let account_document = account_document.unwrap();
             let account = mongodb::bson::from_document::<model::account::Account>(account_document);
 
-            // TODO: clippy improvement
             if account.is_ok() {
                 return Some(account.unwrap());
             }

@@ -39,7 +39,6 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
 
         let transaction = process_entry(&record);
         if transaction.is_none() {
-            // println!("Transaction {} could not be parsed", entry_count);
             continue;
         }
 
@@ -53,7 +52,6 @@ pub fn process_file(input_path: path::PathBuf) -> Result<(), Box<dyn Error>> {
 /// Processes a single csv entry, returns a Transaction object on success, None otherwise.
 fn process_entry(entry: &StringRecord) -> Option<Transaction> {
     if entry.len() != TRANSACTION_FIELDS {
-        // println!("Entry {:?} is not valid", entry);
         return None;
     }
 
